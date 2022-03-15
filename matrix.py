@@ -30,7 +30,7 @@ class Matrix:
         for i in range(len(self.__matrix)):
             summa += self.__matrix[i][i]
         return summa
-
+    # multiplication method
     def __mul__(self, other):
         if type(other) == int:
             return Matrix(self.__multiply_by_scalar(self.__matrix, other))
@@ -57,29 +57,10 @@ class Matrix:
             for j in range(len(a[i])):
                 a[i][j] *= b
         return a
-
+    # ----------------------------------------------------------------------
+    # determinant method
     def det(self):
-        def r_det(mx):
-            def m(mx, i, j):
-                m = []
-                for row in mx:
-                    m.append([col for col in row])
-                if len(m) == 2:
-                    return m
-                else:
-                    del m[i]
-                    for k in m:
-                        del k[j]
-                    return m
-                
-            if len(mx) == 2:
-                return (mx[0][0] * mx[1][1]) - (mx[0][1] * mx[1][0])
-            else:
-                summa = 0
-                for i in range(len(mx)):
-                    summa += (mx[0][i] * ((-1) ** (1 + (i + 1)))) * r_det(m(mx, 0, i))
-                return summa
-        return r_det(self.__is_quadratic(self.__matrix))
+        return self.r_det(self.__is_quadratic(self.__matrix))
 
     @classmethod
     def __is_quadratic(cls, matrix):
@@ -95,6 +76,23 @@ class Matrix:
                 if type(j) != int:
                     raise TypeError('Components of matrix have to be integer')
         return matrix
+    
+    def r_det(self, mx):
+            if len(mx) == 2:
+                return (mx[0][0] * mx[1][1]) - (mx[0][1] * mx[1][0])
+            else:
+                return sum([(mx[0][i] * ((-1) ** (1 + (i + 1)))) * self.r_det(self.m(mx, 0, i)) for i in range(len(mx))])
+    
+    def m(self, mx, i, j):
+                m = [[coll for coll in row] for row in mx]
+                if len(m) == 2:
+                    return m
+                else:
+                    del m[i]
+                    for k in m:
+                        del k[j]
+                    return m
+    # ---------------------------------------------------------------------------
 
 m1 = Matrix([[4, 2, 3, 7], [4, 3, 6, 9], [7, 8, 9, 9], [1, 2, 3, 4]])
 # m1 = Matrix([[1, 2, 5], [4, 5, 5], [2, 1, 1]])
