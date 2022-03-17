@@ -1,3 +1,6 @@
+import re
+
+
 class Matrix:
     def __init__(self, matrix):
         self.__matrix = self.__validate_matrix(matrix)
@@ -82,7 +85,8 @@ class Matrix:
                 return (mx[0][0] * mx[1][1]) - (mx[0][1] * mx[1][0])
             else:
                 return sum([(mx[0][i] * ((-1) ** (1 + (i + 1)))) * self.r_det(self.m(mx, 0, i)) for i in range(len(mx))])
-    
+    # ---------------------------------------------------------------------------
+
     def m(self, mx, i, j):
                 m = [[coll for coll in row] for row in mx]
                 if len(m) == 2:
@@ -92,9 +96,20 @@ class Matrix:
                     for k in m:
                         del k[j]
                     return m
-    # ---------------------------------------------------------------------------
+
+    def cof(self, mx, i, j):
+        return ((-1) ** ((i + 1) + (j + 1)) * self.r_det(self.m(self.__matrix, i, j)))
+    
+    def adjoint(self):
+        return [[self.cof(self.__matrix, i, j) for j in range(len(self.__matrix[0]))] for i in range(len(self.__matrix))]
+
+    # INVERSE
+    def inverse(self):
+        return []
+
 
 m1 = Matrix([[4, 2, 3, 7], [4, 3, 6, 9], [7, 8, 9, 9], [1, 2, 3, 4]])
-# m1 = Matrix([[1, 2, 5], [4, 5, 5], [2, 1, 1]])
-m1.display()
-print(m1.det())
+# m1 = Matrix([[1, 2, 3], [-1, 2, 5], [4, 3, 1]])
+# m1.display()
+# print(m1.det())
+print(m1.adjoint())
