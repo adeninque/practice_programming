@@ -1,6 +1,7 @@
 import random
 from tkinter import *
 from time import sleep
+import os
 
 class Game:
     def __init__(self, n, m):
@@ -10,13 +11,7 @@ class Game:
     def __generate_field(self, n, m):
         self.game_field = [[0 for _ in range(self.__is_int(m))] for _ in range(self.__is_int(n))]
         self.__rows, self.__cols = n, m
-        # for _ in range((self.__cols * self.__rows) // 2):
-        #     while True:
-        #         i, j = random.randint(0, self.__rows-1), random.randint(0, self.__cols-1)
-        #         if self.game_field[i][j] != 1:
-        #             self.game_field[i][j] = 1
-        #             break
-        # self.game_field[self.__rows // 2][self.__cols // 2] = 1
+        
 
     @staticmethod
     def __is_int(x):
@@ -62,16 +57,24 @@ class Game:
             canva.delete('all')
             for i in range(self.__rows):
                     for j in range(self.__cols):
-                        canva.create_rectangle(0 + (20*j), 0 + (20*i), 20 + (20*j), 20 + (20*i), fill = dead_color if self.game_field[i][j] == 0 else random.choice(alive_clors))
+                        canva.create_rectangle(0 + (20*j), 0 + (20*i), 20 + (20*j), 20 + (20*i), fill = dead_color if self.game_field[i][j] == 0 else random.choice(alive_clors), outline='')
             self.step()
             canva.after(300, run)
         
         canva.pack()
         run()
         root.mainloop()
-        
-    @property
     
+    def fill_random(self):
+        for _ in range((self.__cols * self.__rows) // 2):
+            while True:
+                i, j = random.randint(0, self.__rows-1), random.randint(0, self.__cols-1)
+                if self.game_field[i][j] != 1:
+                    self.game_field[i][j] = 1
+                    break
+        self.game_field[self.__rows // 2][self.__cols // 2] = 1
+    
+    @property
     def pattern():
         pass
     
@@ -99,14 +102,15 @@ class Game:
             for j in range(pat_cols):
                 self.game_field[self.__rows // 2 - pat_rows // 2 + i][self.__cols // 2 - pat_cols // 2 + j] = self.__patterns[index][i][j]
 
+    def add_pattern(self, link):
+        if type(link) != str:
+            raise TypeError('Link should be string')
+        with open(link) as file:
+            self.pattern = file.read().split('\n')
+
 if __name__ == '__main__':
     g = Game(30, 40)
-
-    with open('pattern1.txt') as file:
-        g.pattern = file.read().split('\n')
-        
-    with open('pattern2.txt') as file:
-        g.pattern = file.read().split('\n')   
-    
-    g.place_pattern(0)
+    # g.add_pattern(os.path.abspath('game_of_life\pattern1.txt'))
+    # g.place_pattern(0)
+    # g.fill_random()
     g.start()
