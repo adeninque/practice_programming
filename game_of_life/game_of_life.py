@@ -57,7 +57,7 @@ class Game:
             canva.delete('all')
             for i in range(self.__rows):
                     for j in range(self.__cols):
-                        canva.create_rectangle(0 + (20*j), 0 + (20*i), 20 + (20*j), 20 + (20*i), fill = dead_color if self.game_field[i][j] == 0 else random.choice(alive_clors), outline='')
+                        canva.create_rectangle(0 + (20*j), 0 + (20*i), 20 + (20*j), 20 + (20*i), fill = dead_color if self.game_field[i][j] == 0 else random.choice(alive_clors))
             self.step()
             canva.after(300, run)
         
@@ -110,7 +110,7 @@ class Game:
 
 if __name__ == '__main__':
     g = Game(30, 40)
-    # g.add_pattern(os.path.abspath('game_of_life\pattern1.txt'))
-    # g.place_pattern(0)
+    g.add_pattern(os.path.abspath('game_of_life\pattern1.txt'))
+    g.place_pattern(0)
     # g.fill_random()
     g.start()
