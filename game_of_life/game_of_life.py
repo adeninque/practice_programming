@@ -72,7 +72,7 @@ class Game:
                 if self.game_field[i][j] != 1:
                     self.game_field[i][j] = 1
                     break
-        self.game_field[self.__rows // 2][self.__cols // 2] = 1
+        # self.game_field[self.__rows // 2][self.__cols // 2] = 1
     
     @property
     def pattern():
