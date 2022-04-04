@@ -13,10 +13,12 @@ Main class is Sim, it takes 5 arguments:
 - c - Canva
 - 2 args for matrix size (n and m arguments)
 - Also height and width arguments to draw
+
 ![SIM](./screenshots/sim.png)
 
 ### mehtods:
 "make_surface" methods creates matrix n by m as self.surface
+
 ![make_surface](./screenshots/make_surface.png)
 
 "spawn_sims" this method fills self.surface randomly "n" amount of live cell
